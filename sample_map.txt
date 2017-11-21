@@ -1271,11 +1271,11 @@
 1RFT008	RFT
 1RFT009	RFT
 1RFT010	RFT
-1rhat001	atratalus
-1rhat002	atratalus
-1rhat003	atratalus
-1rhat004	atratalus
-1rhat005	atratalus
+1rhat001	atratulus
+1rhat002	atratulus
+1rhat003	atratulus
+1rhat004	atratulus
+1rhat005	atratulus
 1RHEV001	evermanni
 1RHEV002	evermanni
 1RHEV003	evermanni
