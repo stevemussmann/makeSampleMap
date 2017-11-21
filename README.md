@@ -1,7 +1,7 @@
 # makeSampleMap
 Perl script for generating a tab-delimited sample map from pyRAD output.
 
-Many of my scripts require input of a tab-delimited sample map.  This format is a plain text file in which each line represents an individual sample.  The sample name is first provided on a line, with a tab separating it from its population designmation.  I use these files to insert population information when converting from pyRAD output files to other formats.  
+Many of my scripts require input of a tab-delimited sample map.  This format is a plain text file in which each line represents an individual sample.  The sample name is first provided on a line, with a tab separating it from its population designation.  I use these files to insert population information when converting from pyRAD output files to other formats.  
 
 ## Setup:
 I have provided an example sample map (sample_map.txt) to show you how I set up the initial input file.  If you would like to use this code for your own files, you will need to make some modifications to the script.
