@@ -91,7 +91,7 @@ sub parsecom{
   # set default values for command line arguments
   my $str = $opts{s} || die "No input file specified.\n\n"; #used to specify input file name.  This is the input snps file produced by pyRAD
   my $out = $opts{o} || "map.txt"  ; #used to specify output file name.  If no name is provided, the file extension ".out" will be appended to the input file name.
-  my $master = $opts{m} || "/home/mussmann/local/scripts/perl/makemap/sample_map.txt"; #used to specify location of the master list of populations
+  my $master = $opts{m} || "/home/mussmann/local/scripts/perl/makeSampleMap/sample_map.txt"; #used to specify location of the master list of populations
 
   return( $str, $out, $master );
 
