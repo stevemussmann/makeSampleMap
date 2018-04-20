@@ -13,7 +13,7 @@ if( scalar( @ARGV ) == 0 ){
 
 # take command line arguments
 my %opts;
-getopts( 'ho:m:s:', \%opts );
+getopts( 'ho:m:c:', \%opts );
 
 # if -h flag is used, or if no command line arguments were specified, kill program and print help
 if( $opts{h} ){
@@ -22,39 +22,42 @@ if( $opts{h} ){
 }
 
 # parse the command line
-my( $str, $out, $master ) = &parsecom( \%opts );
+my( $comp, $out, $master ) = &parsecom( \%opts );
 
 # declare variables
-my @strlines;
+my @complines;
 my @popmaplines;
 my %hash;
+my %indhash;
 
 # put files into array
-&filetoarray( $str, \@strlines );
+&filetoarray( $comp, \@complines );
 &filetoarray( $master, \@popmaplines );
+
+# remove header
+shift( @complines );
 
 foreach my $line( @popmaplines ){
 	my @temp = split( /\t/, $line );
 	$hash{$temp[0]} = $temp[1];
-	#print $hash{$temp[0]}, "\n";
+}
+
+for( my $i=0; $i<@complines; $i++ ){
+	my @temp = split( /\t/, $complines[$i]  );
+	for( my $j=0; $j<4; $j++ ){
+		$indhash{$temp[$j]}++;
+	}
 }
 
 open( OUT, '>', $out ) or die "Can't open $out: $!\n\n";
 
-for( my $i=0; $i<@strlines; $i++ ){
-	if($i%2 == 0){
-		my @temp = split( /\t/, $strlines[$i]  );
-		if( $temp[0] =~ /\d{1,2}[a-zA-Z]{3,4}\d{3}/ ){
-			$temp[0] =~ s/\s//g;
-			#print $temp[0], "\n";
-			print OUT $temp[0], "\t", $hash{$temp[0]}, "\n";
-		}
-	}
+foreach my $ind( sort keys %indhash ){
+	print OUT $ind, "\t", $hash{$ind}, "\n";
 }
 
 close OUT;
 
-#print Dumper( \%hash );
+#print Dumper( \%indhash );
 
 exit;
 
@@ -89,11 +92,11 @@ sub parsecom{
   my %opts = %$params;
   
   # set default values for command line arguments
-  my $str = $opts{s} || die "No input file specified.\n\n"; #used to specify input file name.  This is the input snps file produced by pyRAD
-  my $out = $opts{o} || "map.txt"  ; #used to specify output file name.  If no name is provided, the file extension ".out" will be appended to the input file name.
+  my $comp = $opts{c} || die "No input file specified.\n\n"; #used to specify input file name.  This is the input snps file produced by pyRAD
+  my $out = $opts{o} || "$comp.map"  ; #used to specify output file name.  If no name is provided, the file extension ".out" will be appended to the input file name.
   my $master = $opts{m} || "/home/mussmann/local/scripts/perl/makeSampleMap/sample_map.txt"; #used to specify location of the master list of populations
 
-  return( $str, $out, $master );
+  return( $comp, $out, $master );
 
 }
 
@@ -115,10 +118,6 @@ sub filetoarray{
     #print $line, "\n";
     push( @$array, $line );
   }
-
-  #foreach my $thing( @$array ){
-  #	print $thing, "\n";
-  #}
 
   # close input file
   close FILE;
